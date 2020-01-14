@@ -61,3 +61,7 @@ spec:
 ## Building/Deploying
 
 A simple docker build in this repo does the trick.
+
+## Grafana
+
+https://grafana.com/grafana/dashboards/11563
