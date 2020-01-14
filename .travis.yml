@@ -1,0 +1,11 @@
+services:
+  - docker
+language: go
+go:
+  - "1.13"
+
+script:
+  - 'if [ "${TRAVIS_BUILD_DIR}" != "${GOPATH}/src/github.com/DeviaVir/k8s-quin" ]; then ln -s "${TRAVIS_BUILD_DIR}" "${GOPATH}/src/github.com/DeviaVir/k8s-quin"; fi'
+  - make vendor
+  - make test
+  - make
