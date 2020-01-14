@@ -61,12 +61,14 @@ func main() {
 }
 
 func actionRun(c *cli.Context) error {
-	log.Println("running with")
-	log.Printf("--config-source: %v", c.String("config-source"))
-	log.Printf("--ping-frequency-sec: %d", c.Int("ping-frequency-sec"))
-	log.Printf("--kubernetes-internal: %t", c.BoolT("kubernetes-internal"))
-	log.Printf("--http-port: %d", c.Int("http-port"))
-	log.Printf("--debug: %t", c.Bool("debug"))
+	if c.Bool("debug") {
+		log.Println("running with")
+		log.Printf("--config-source: %v", c.String("config-source"))
+		log.Printf("--ping-frequency-sec: %d", c.Int("ping-frequency-sec"))
+		log.Printf("--kubernetes-internal: %t", c.BoolT("kubernetes-internal"))
+		log.Printf("--http-port: %d", c.Int("http-port"))
+		log.Printf("--debug: %t", c.Bool("debug"))
+	}
 
 	// One time register on startup. Can't record metrics until this completes.
 	quin.RegisterMetrics(c.Bool("debug"))
