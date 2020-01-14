@@ -30,6 +30,7 @@ func PingPeers(endpoints *Poller, port int) {
 			stats, err := ping(peer, &wg)
 			if err != nil {
 				log.Printf("ERROR: unable to ping peer %s: %s", peer.Hostname, err)
+				pingFailures.With(prometheus.Labels{"hostname": peer.Hostname}).Inc()
 				return
 			}
 			log.Printf("ping %s %g", stats.Peer.Hostname, stats.RTTs)
