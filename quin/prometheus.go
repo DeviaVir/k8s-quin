@@ -13,8 +13,10 @@ var (
 )
 
 // RegisterMetrics initiate prometheus exported labels
-func RegisterMetrics() {
-	log.Println("registering prometheus metrics")
+func RegisterMetrics(debug bool) {
+	if debug {
+		log.Println("registering prometheus metrics")
+	}
 	pings = prometheus.NewHistogramVec(prometheus.HistogramOpts{
 		Name: "ping_seconds",
 		Help: "Ping RTT in seconds",

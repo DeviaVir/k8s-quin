@@ -31,6 +31,10 @@ func main() {
 			Name:  "kubernetes-internal",
 			Usage: "Use internal kubernetes configuration (set to false when you want to use the kubeconfig in your home dir).",
 		},
+		cli.BoolFlag{
+			Name:  "debug",
+			Usage: "Print debug log lines.",
+		},
 		cli.IntFlag{
 			Name:  "peer-poll-sec",
 			Value: 60,
@@ -60,11 +64,12 @@ func actionRun(c *cli.Context) error {
 	log.Println("running with")
 	log.Printf("--config-source: %v", c.String("config-source"))
 	log.Printf("--ping-frequency-sec: %d", c.Int("ping-frequency-sec"))
-	log.Printf("--kubernetes-internal: %d", c.BoolT("kubernetes-internal"))
+	log.Printf("--kubernetes-internal: %t", c.BoolT("kubernetes-internal"))
 	log.Printf("--http-port: %d", c.Int("http-port"))
+	log.Printf("--debug: %t", c.Bool("debug"))
 
 	// One time register on startup. Can't record metrics until this completes.
-	quin.RegisterMetrics()
+	quin.RegisterMetrics(c.Bool("debug"))
 
 	endpoints := quin.NewEndpointGrabber(c.String("config-source"), c.Int("peer-poll-sec"), c.BoolT("kubernetes-internal"))
 
@@ -74,7 +79,7 @@ func actionRun(c *cli.Context) error {
 			select {
 			case _ = <-pingTicker.C:
 				log.Printf("Pinging peers")
-				quin.PingPeers(endpoints, c.Int("http-port"))
+				quin.PingPeers(endpoints, c.Int("http-port"), c.Bool("debug"))
 			}
 		}
 	}()
