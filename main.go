@@ -80,7 +80,9 @@ func actionRun(c *cli.Context) error {
 		for {
 			select {
 			case _ = <-pingTicker.C:
-				log.Printf("Pinging peers")
+				if c.Bool("debug") {
+					log.Printf("Pinging peers")
+				}
 				quin.PingPeers(endpoints, c.Int("http-port"), c.Bool("debug"))
 			}
 		}
