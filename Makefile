@@ -19,7 +19,7 @@ GOVERSION := 1.13
 PROJECT := github.com/DeviaVir/k8s-quin
 OWNER := $(notdir $(patsubst %/,%,$(dir $(PROJECT))))
 NAME := $(notdir $(PROJECT))
-VERSION := 0.0.1
+VERSION := 0.0.4
 
 # Current system information
 GOOS ?= $(shell go env GOOS)
