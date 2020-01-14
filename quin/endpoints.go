@@ -102,8 +102,6 @@ func (p *Poller) updatePeers(clientset *kubernetes.Clientset) {
 	nodes, err := clientset.CoreV1().Nodes().List(metav1.ListOptions{})
 	for _, item := range nodes.Items {
 		for _, address := range item.Status.Addresses {
-			fmt.Printf("address.Type %s\n", string(address.Type))
-			fmt.Printf("address.Address %s\n", string(address.Address))
 			if strings.ToLower(string(address.Type)) == "internalip" {
 				t := target{string(address.Address)}
 				targets = append(targets, t)
